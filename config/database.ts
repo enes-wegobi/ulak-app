@@ -8,11 +8,11 @@ export default ({ env }) => {
     postgres: {
       connection: {
         connectionString: env('DATABASE_URL'),
-        host: env('DATABASE_HOST', '168880-0.c.db.ondigitalocean.com'),
+        host: env('DATABASE_HOST', '168880******-om'),
         port: env.int('DATABASE_PORT', 25060),
         database: env('DATABASE_NAME', 'ulakdb'),
         user: env('DATABASE_USERNAME', 'strapi'),
-        password: env('DATABASE_PASSWORD', 'AVNS_GRBk7oscvV9o4MQN'),
+        password: env('DATABASE_PASSWORD', 'AVNS_GRBvV9o4MQN'),
         ssl: env.bool('DATABASE_SSL', true) && {
           rejectUnauthorized: env.bool(
             'DATABASE_SSL_REJECT_UNAUTHORIZED',
