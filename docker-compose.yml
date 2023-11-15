@@ -2,7 +2,9 @@ version: "3"
 services:
   ulak:
     container_name: ulak
-    build: .
+    build: 
+      context: .
+      dockerfile: Dockerfile.prod
     image: ulak:latest
     restart: unless-stopped
     env_file: .env
