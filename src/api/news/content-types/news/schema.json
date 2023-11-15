@@ -1,0 +1,62 @@
+{
+  "kind": "collectionType",
+  "collectionName": "newses",
+  "info": {
+    "singularName": "news",
+    "pluralName": "newses",
+    "displayName": "news",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "isHomeFeatured": {
+      "type": "boolean",
+      "default": false,
+      "required": true
+    },
+    "viewCount": {
+      "type": "biginteger",
+      "default": "0",
+      "required": true,
+      "min": "0",
+      "private": true
+    },
+    "resource": {
+      "type": "string"
+    },
+    "isCategoryFeatured": {
+      "type": "boolean",
+      "default": false,
+      "required": true
+    },
+    "content": {
+      "type": "customField",
+      "options": {
+        "preset": "toolbar"
+      },
+      "required": true,
+      "customField": "plugin::ckeditor5.CKEditor"
+    },
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "categories": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::category.category",
+      "inversedBy": "newses"
+    }
+  }
+}

@@ -362,6 +362,104 @@ export interface AdminTransferTokenPermission extends Schema.CollectionType {
   };
 }
 
+export interface ApiCategoryCategory extends Schema.CollectionType {
+  collectionName: 'categories';
+  info: {
+    singularName: 'category';
+    pluralName: 'categories';
+    displayName: 'category';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String & Attribute.Required & Attribute.Unique;
+    image: Attribute.Media & Attribute.Required;
+    viewCount: Attribute.BigInteger &
+      Attribute.Private &
+      Attribute.SetMinMax<{
+        min: '0';
+      }> &
+      Attribute.DefaultTo<'0'>;
+    newses: Attribute.Relation<
+      'api::category.category',
+      'manyToMany',
+      'api::news.news'
+    >;
+    isFirstToShow: Attribute.Boolean &
+      Attribute.Required &
+      Attribute.Private &
+      Attribute.DefaultTo<false>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::category.category',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::category.category',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiNewsNews extends Schema.CollectionType {
+  collectionName: 'newses';
+  info: {
+    singularName: 'news';
+    pluralName: 'newses';
+    displayName: 'news';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    image: Attribute.Media & Attribute.Required;
+    isHomeFeatured: Attribute.Boolean &
+      Attribute.Required &
+      Attribute.DefaultTo<false>;
+    viewCount: Attribute.BigInteger &
+      Attribute.Required &
+      Attribute.Private &
+      Attribute.SetMinMax<{
+        min: '0';
+      }> &
+      Attribute.DefaultTo<'0'>;
+    resource: Attribute.String;
+    isCategoryFeatured: Attribute.Boolean &
+      Attribute.Required &
+      Attribute.DefaultTo<false>;
+    content: Attribute.RichText &
+      Attribute.Required &
+      Attribute.CustomField<
+        'plugin::ckeditor5.CKEditor',
+        {
+          preset: 'toolbar';
+        }
+      >;
+    title: Attribute.String & Attribute.Required;
+    categories: Attribute.Relation<
+      'api::news.news',
+      'manyToMany',
+      'api::category.category'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::news.news', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<'api::news.news', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+  };
+}
+
 export interface PluginUploadFile extends Schema.CollectionType {
   collectionName: 'files';
   info: {
@@ -687,6 +785,8 @@ declare module '@strapi/types' {
       'admin::api-token-permission': AdminApiTokenPermission;
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
+      'api::category.category': ApiCategoryCategory;
+      'api::news.news': ApiNewsNews;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::i18n.locale': PluginI18NLocale;

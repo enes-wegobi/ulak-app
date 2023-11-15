@@ -10,7 +10,10 @@
     "strapi": "strapi"
   },
   "dependencies": {
+    "@_sh/strapi-plugin-ckeditor": "^2.0.4",
+    "@ckeditor/strapi-plugin-ckeditor": "^0.0.10",
     "@strapi/plugin-cloud": "4.15.4",
+    "@strapi/plugin-documentation": "^4.15.4",
     "@strapi/plugin-i18n": "4.15.4",
     "@strapi/plugin-users-permissions": "4.15.4",
     "@strapi/strapi": "4.15.4",
@@ -30,5 +33,8 @@
     "node": ">=18.0.0 <=20.x.x",
     "npm": ">=6.0.0"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@types/koa": "^2.13.11"
+  }
 }
