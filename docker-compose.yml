@@ -4,7 +4,7 @@ services:
     container_name: ulak
     build: 
       context: .
-      dockerfile: Dockerfile.prod
+      dockerfile: Dockerfile
     image: ulak:latest
     restart: unless-stopped
     env_file: .env
