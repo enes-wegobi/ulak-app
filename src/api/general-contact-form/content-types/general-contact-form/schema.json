@@ -1,0 +1,35 @@
+{
+  "kind": "collectionType",
+  "collectionName": "general_contact_forms",
+  "info": {
+    "singularName": "general-contact-form",
+    "pluralName": "general-contact-forms",
+    "displayName": "general-contact-form"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "surname": {
+      "type": "string",
+      "required": true
+    },
+    "email": {
+      "type": "email",
+      "required": true
+    },
+    "subject": {
+      "type": "string",
+      "required": true
+    },
+    "message": {
+      "type": "text",
+      "required": true
+    }
+  }
+}

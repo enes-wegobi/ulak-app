@@ -15,5 +15,10 @@ export default {
       path: '/main/categories',
       handler: 'main.getCategories',
      },
+     {
+      method: 'GET',
+      path: '/main/news/:id',
+      handler: 'main.getNewsById',
+     }
   ],
 };
