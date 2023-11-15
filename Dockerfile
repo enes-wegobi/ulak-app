@@ -13,6 +13,7 @@ ENV PATH /opt/node_modules/.bin:$PATH
 WORKDIR /opt/app
 COPY . .
 RUN chown -R node:node /opt/app
+RUN mkdir -p /opt/app/public/uploads && chown -R node:node /opt/app/public/uploads
 USER node
 RUN ["npm", "run", "build"]
 EXPOSE 1337
