@@ -4,4 +4,11 @@ export default ({ env }) => ({
     app: { 
       keys: env.array('APP_KEYS')
     },
+    admin: {
+        // ...
+        path: '/admin',
+        build: {
+          backend: env('ADMIN_BUILD_BACKEND', 'https://ulak-app-ja5wx.ondigitalocean.app'),
+        },
+    }
 });
