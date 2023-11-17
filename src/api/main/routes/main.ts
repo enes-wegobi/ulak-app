@@ -19,6 +19,11 @@ export default {
       method: 'GET',
       path: '/main/news/:id',
       handler: 'main.getNewsById',
+     },
+     {
+      method: 'GET',
+      path: '/main/featured-news',
+      handler: 'main.getFeaturedNewsByCategory',
      }
   ],
 };

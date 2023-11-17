@@ -4,6 +4,39 @@
 import { Context } from 'koa';
 
 module.exports = {
+  async getFeaturedNewsByCategory(ctx){
+    try {
+      const page: string = ctx.query.page as string;
+      const pageSize: string = ctx.query.pageSize as string;
+      const category: string = ctx.query.category as string;
+      if (category && isNaN(parseInt(category))) {
+        return ctx.badRequest('Invalid category id');
+      }
+      const parsedPage = parseInt(page || '1');
+      const parsedPageSize = parseInt(pageSize || '5');
+
+      let filters: any = {};
+      if (category) {
+        filters.categories = {
+          id: {
+            $eq: parseInt(category)
+          }
+        };
+      }
+
+      const featuredNewsByCategory = await strapi.entityService.findPage('api::news.news', {
+        page: parsedPage,
+        pageSize: parsedPageSize,
+        populate: ['image'],
+        fields:['id', 'title'],
+        filters,
+        sort: 'publishedAt:desc'
+      });
+      ctx.send(featuredNewsByCategory);
+    } catch (error) {
+      ctx.badRequest();
+    }
+  },
   async getNewsById(ctx) {
     try {
       const { id } = ctx.params;
