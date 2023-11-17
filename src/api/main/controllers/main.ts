@@ -124,7 +124,7 @@ module.exports = {
     const recentlyAddedNews = await strapi.entityService.findMany('api::news.news', {
       sort: ['publishedAt:desc'],
       fields:['id', 'title', 'publishedAt'],
-      populate: ['categories', 'categories.image', 'image'],
+      populate: ['categories', 'image'],
       limit: 5,
     });
 
