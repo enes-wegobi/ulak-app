@@ -2,36 +2,44 @@
  * A set of functions called "actions" for `main`
  */
 import { Context } from 'koa';
+import { DateTime } from 'luxon';
 
 module.exports = {
-  async getFeaturedNewsByCategory(ctx){
+  async getLatestNewsByCategory(ctx){
     try {
-      const page: string = ctx.query.page as string;
-      const pageSize: string = ctx.query.pageSize as string;
-      const category: string = ctx.query.category as string;
+
+      const category: string | undefined = ctx.query.category as string | undefined;
+  
       if (category && isNaN(parseInt(category))) {
         return ctx.badRequest('Invalid category id');
-      }
-      const parsedPage = parseInt(page || '1');
-      const parsedPageSize = parseInt(pageSize || '5');
-
-      let filters: any = {};
-      if (category) {
-        filters.categories = {
-          id: {
+      }  
+     
+      const featuredNewsByCategory = await strapi.entityService.findMany('api::category.category', {
+        populate: {
+          image: {
+            populate: ['folder']
+          },
+          newses: {
+            fields: ["id", "title", "publishedAt"],
+            populate: ["image"],
+            filters: {
+              publishedAt: {
+                $gte: DateTime.now().minus({ days: 1 }).toISO()
+              }
+            },
+            sort: 'publishedAt:asc'
+          } 
+        },
+        fields: ['id', 'name'],
+        filters: {
+           id: {
             $eq: parseInt(category)
           }
-        };
+
       }
 
-      const featuredNewsByCategory = await strapi.entityService.findPage('api::news.news', {
-        page: parsedPage,
-        pageSize: parsedPageSize,
-        populate: ['image'],
-        fields:['id', 'title'],
-        filters,
-        sort: 'publishedAt:desc'
       });
+  
       ctx.send(featuredNewsByCategory);
     } catch (error) {
       ctx.badRequest();
