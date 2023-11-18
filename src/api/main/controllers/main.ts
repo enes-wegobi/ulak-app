@@ -5,15 +5,8 @@ import { Context } from 'koa';
 import { DateTime } from 'luxon';
 
 module.exports = {
-  async getLatestNewsByCategory(ctx){
+  async getLatestNews(ctx){
     try {
-
-      const category: string | undefined = ctx.query.category as string | undefined;
-  
-      if (category && isNaN(parseInt(category))) {
-        return ctx.badRequest('Invalid category id');
-      }  
-     
       const featuredNewsByCategory = await strapi.entityService.findMany('api::category.category', {
         populate: {
           image: {
@@ -31,13 +24,6 @@ module.exports = {
           } 
         },
         fields: ['id', 'name'],
-        filters: {
-           id: {
-            $eq: parseInt(category)
-          }
-
-      }
-
       });
   
       ctx.send(featuredNewsByCategory);

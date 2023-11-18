@@ -23,7 +23,7 @@ export default {
      {
       method: 'GET',
       path: '/main/latest-news',
-      handler: 'main.getLatestNewsByCategory',
+      handler: 'main.getLatestNews',
      }
   ],
 };
