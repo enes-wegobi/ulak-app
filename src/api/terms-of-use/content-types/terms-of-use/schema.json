@@ -1,0 +1,22 @@
+{
+  "kind": "singleType",
+  "collectionName": "terms_of_uses",
+  "info": {
+    "singularName": "terms-of-use",
+    "pluralName": "terms-of-uses",
+    "displayName": "Term Of Use"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "text": {
+      "type": "customField",
+      "options": {
+        "preset": "toolbar"
+      },
+      "customField": "plugin::ckeditor5.CKEditor"
+    }
+  }
+}

@@ -5,3 +5,4 @@ export default {
     withCount: true,
   },
 };
+//npm run strapi ts:generate-types --debug
