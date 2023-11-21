@@ -20,12 +20,12 @@ module.exports = {
                 $gte: DateTime.now().minus({ days: 1 }).toISO()
               }
             },
-            sort: 'publishedAt:asc'
-          } 
+            sort: 'publishedAt:desc'
+          }
         },
         fields: ['id', 'name'],
       });
-  
+
       ctx.send(featuredNewsByCategory);
     } catch (error) {
       ctx.badRequest();
@@ -39,7 +39,7 @@ module.exports = {
       }
       const news = await strapi.entityService.findOne('api::news.news', id, {
         populate: ['image','categories'],
-      });   
+      });
 
       if (!news) {
         return ctx.notFound('News not found');
@@ -76,14 +76,14 @@ module.exports = {
       const categories = await strapi.entityService.findMany('api::category.category', {
         populate:['image'],
         fields: ['id', 'name']
-      });    
+      });
       ctx.send(categories);
     } catch (error) {
       ctx.badRequest(error);
     }
   },
-  
- 
+
+
   async getNews(ctx: Context) {
     try {
       const { isCategoryFeatured } = ctx.query;
@@ -104,14 +104,14 @@ module.exports = {
         if (category && isNaN(parseInt(category))) {
           return ctx.badRequest('Invalid category id');
         }
-    
+
         if (category) {
           filters.categories = {
             id: {
               $eq: parseInt(category)
             }
           };
-    
+
           if (isCategoryFeatured) {
             filters.isCategoryFeatured = {
               $eq: isFeatured
@@ -131,7 +131,7 @@ module.exports = {
         filters,
         sort: 'publishedAt:desc'
       });
-  
+
       ctx.send(newsByCategory);
     } catch (error) {
       ctx.badRequest(error);
@@ -140,15 +140,20 @@ module.exports = {
   async getMainContents(ctx: Context) {
     const homeFeaturedNews = await strapi.entityService.findMany('api::news.news', {
       filters: {
-          isHomeFeatured: {
-            $eq: true,
-          },
+          $and :[{isHomeFeatured: {$eq: true, },}, {$not: {publishedAt: null}}]
       },
+      limit:15,
+      sort: ['publishedAt:desc'],
       fields:['id','title'],
       populate: ["image"],
     });
 
     const recentlyAddedNews = await strapi.entityService.findMany('api::news.news', {
+      filters:{ $not:
+          {
+            publishedAt: null
+          }
+        },
       sort: ['publishedAt:desc'],
       fields:['id', 'title', 'publishedAt'],
       populate: ['categories', 'image'],
@@ -162,11 +167,12 @@ module.exports = {
 
     const categoryNews = await strapi.entityService.findMany('api::category.category', {
       limit: 5,
-      populate: { 
+      populate: {
         newses: {
+          filters: {$not: {publishedAt: null}},
           populate: ["image"],
           fields: ["title", "createdAt"]
-        } 
+        }
       },
       filters: {
         isFirstToShow: {
