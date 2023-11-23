@@ -171,14 +171,10 @@ module.exports = {
         newses: {
           filters: {$not: {publishedAt: null}},
           populate: ["image"],
-          fields: ["title", "createdAt"]
+          fields: ["title", "createdAt"],
+          sort: ['publishedAt:desc'],
         }
-      },
-      filters: {
-        isFirstToShow: {
-          $eq: true,
-        },
-      },
+      }
     })
     return ctx.send({
       homeFeaturedNews,
