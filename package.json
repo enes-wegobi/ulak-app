@@ -17,6 +17,7 @@
     "@strapi/plugin-users-permissions": "4.15.4",
     "@strapi/provider-upload-aws-s3": "^4.15.4",
     "@strapi/strapi": "4.15.4",
+    "expo-server-sdk": "^3.7.0",
     "luxon": "^3.4.4",
     "pg": "^8.8.0",
     "react": "^18.0.0",

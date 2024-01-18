@@ -13,7 +13,7 @@ module.exports = {
             populate: ['folder']
           },
           newses: {
-            fields: ["id", "title", "publishedAt"],
+            fields: ["id", "title", "publishedAt", "sourceBrand"],
             populate: ["image"],
             filters: {
               publishedAt: {
@@ -144,7 +144,7 @@ module.exports = {
       },
       limit:15,
       sort: ['publishedAt:desc'],
-      fields:['id','title'],
+      fields:['id','title', 'sourceBrand'],
       populate: ["image"],
     });
 
@@ -155,7 +155,7 @@ module.exports = {
           }
         },
       sort: ['publishedAt:desc'],
-      fields:['id', 'title', 'publishedAt'],
+      fields:['id', 'title', 'publishedAt', 'sourceBrand'],
       populate: ['categories', 'image'],
       limit: 5,
     });
@@ -171,7 +171,7 @@ module.exports = {
         newses: {
           filters: {$not: {publishedAt: null}},
           populate: ["image"],
-          fields: ["title", "createdAt"],
+          fields: ["title", "createdAt", "sourceBrand"],
           sort: ['publishedAt:desc'],
         }
       }

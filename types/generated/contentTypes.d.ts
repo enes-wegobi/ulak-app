@@ -677,6 +677,38 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
 }
 
+export interface ApiAppUserAppUser extends Schema.CollectionType {
+  collectionName: 'app_users';
+  info: {
+    singularName: 'app-user';
+    pluralName: 'app-users';
+    displayName: 'app-user';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    expoPushToken: Attribute.String;
+    isNotificationAllowed: Attribute.Boolean;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::app-user.app-user',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::app-user.app-user',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiCategoryCategory extends Schema.CollectionType {
   collectionName: 'categories';
   info: {
@@ -761,6 +793,38 @@ export interface ApiCookieCookie extends Schema.SingleType {
   };
 }
 
+export interface ApiExpoUserExpoUser extends Schema.CollectionType {
+  collectionName: 'expo_users';
+  info: {
+    singularName: 'expo-user';
+    pluralName: 'expo-users';
+    displayName: 'expo-user';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    expoPushToken: Attribute.String;
+    isNotificationAllowed: Attribute.Boolean & Attribute.DefaultTo<false>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::expo-user.expo-user',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::expo-user.expo-user',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiGeneralContactFormGeneralContactForm
   extends Schema.CollectionType {
   collectionName: 'general_contact_forms';
@@ -837,12 +901,43 @@ export interface ApiNewsNews extends Schema.CollectionType {
       'manyToMany',
       'api::category.category'
     >;
+    sourceBrand: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<'api::news.news', 'oneToOne', 'admin::user'> &
       Attribute.Private;
     updatedBy: Attribute.Relation<'api::news.news', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+  };
+}
+
+export interface ApiNuserNuser extends Schema.CollectionType {
+  collectionName: 'nusers';
+  info: {
+    singularName: 'nuser';
+    pluralName: 'nusers';
+    displayName: 'nuser';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    expoPushToken: Attribute.String;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::nuser.nuser',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::nuser.nuser',
+      'oneToOne',
+      'admin::user'
+    > &
       Attribute.Private;
   };
 }
@@ -935,10 +1030,13 @@ declare module '@strapi/types' {
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
+      'api::app-user.app-user': ApiAppUserAppUser;
       'api::category.category': ApiCategoryCategory;
       'api::cookie.cookie': ApiCookieCookie;
+      'api::expo-user.expo-user': ApiExpoUserExpoUser;
       'api::general-contact-form.general-contact-form': ApiGeneralContactFormGeneralContactForm;
       'api::news.news': ApiNewsNews;
+      'api::nuser.nuser': ApiNuserNuser;
       'api::privacy-policy.privacy-policy': ApiPrivacyPolicyPrivacyPolicy;
       'api::terms-of-use.terms-of-use': ApiTermsOfUseTermsOfUse;
     }

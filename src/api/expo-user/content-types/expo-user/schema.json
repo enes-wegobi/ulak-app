@@ -1,0 +1,23 @@
+{
+  "kind": "collectionType",
+  "collectionName": "expo_users",
+  "info": {
+    "singularName": "expo-user",
+    "pluralName": "expo-users",
+    "displayName": "expo-user",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "expoPushToken": {
+      "type": "string"
+    },
+    "isNotificationAllowed": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}
