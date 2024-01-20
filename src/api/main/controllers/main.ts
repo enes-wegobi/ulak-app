@@ -7,26 +7,17 @@ import { DateTime } from 'luxon';
 module.exports = {
   async getLatestNews(ctx){
     try {
-      const featuredNewsByCategory = await strapi.entityService.findMany('api::category.category', {
-        populate: {
-          image: {
-            populate: ['folder']
-          },
-          newses: {
-            fields: ["id", "title", "publishedAt", "sourceBrand"],
-            populate: ["image"],
-            filters: {
-              publishedAt: {
-                $gte: DateTime.now().minus({ days: 1 }).toISO()
-              }
-            },
-            sort: 'publishedAt:desc'
+      const featuredNews = await strapi.entityService.findMany('api::news.news', {
+        filters:{
+          publishedAt: {
+            $gte: DateTime.now().minus({ days: 1 }).toISO()
           }
         },
-        fields: ['id', 'name'],
+        sort: 'publishedAt:desc',
+        fields: ["id", "title", "publishedAt", "sourceBrand"],
+        populate: ["image"],
       });
-
-      ctx.send(featuredNewsByCategory);
+      ctx.send(featuredNews);
     } catch (error) {
       ctx.badRequest();
     }
@@ -82,9 +73,8 @@ module.exports = {
       ctx.badRequest(error);
     }
   },
-
-
   async getNews(ctx: Context) {
+    //sourceBrand
     try {
       const { isCategoryFeatured } = ctx.query;
       const category: string = ctx.query.category as string;
@@ -183,4 +173,36 @@ module.exports = {
       categories
     })
   },
+  async createExpoUser(data: any) {
+    // @ts-ignore
+    const {expoPushToken} = data.request.body.data
+
+    if(expoPushToken){
+      const expoUser = await strapi.db.query('api::expo-user.expo-user').findOne({
+        select: ["id"],
+        where: { expoPushToken: expoPushToken },
+        populate: { id: true},
+      });
+      if(expoUser){
+        return await strapi.entityService.update('api::expo-user.expo-user', expoUser.id, {
+          data: data.request.body.data
+        });
+      }
+
+    }
+    return await strapi.entityService.create('api::expo-user.expo-user', {
+      data: data.request.body.data
+    });
+  },
+  async getExpoUserByToken(ctx) {
+    const {expoPushToken} = ctx.params;
+    if(expoPushToken){
+      const expoUser = await strapi.db.query('api::expo-user.expo-user').findOne({
+        select: ["id","isNotificationAllowed","expoPushToken"],
+        where: { expoPushToken: expoPushToken },
+      });
+      return ctx.send(expoUser);
+    }
+    ctx.badRequest();
+  }
 };

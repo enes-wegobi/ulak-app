@@ -24,6 +24,16 @@ export default {
       method: 'GET',
       path: '/main/latest-news',
       handler: 'main.getLatestNews',
-     }
+     },
+    {
+      method: 'POST',
+      path: '/main/expo-users',
+      handler: 'main.createExpoUser',
+    },
+    {
+      method: 'GET',
+      path: '/main/expo-users/:expoPushToken',
+      handler: 'main.getExpoUserByToken',
+    },
   ],
 };
