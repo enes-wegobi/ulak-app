@@ -5,6 +5,23 @@ import { Context } from 'koa';
 import { DateTime } from 'luxon';
 
 module.exports = {
+  /*
+populate: {
+          image: {
+            populate: ['folder']
+          },
+          newses: {
+            fields: ["id", "title", "publishedAt"],
+            populate: ["image"],
+            filters: {
+              publishedAt: {
+                $gte: DateTime.now().minus({ days: 1 }).toISO()
+              }
+            },
+            sort: 'publishedAt:desc'
+          }
+        },
+   */
   async getLatestNews(ctx){
     try {
       const featuredNews = await strapi.entityService.findMany('api::news.news', {
@@ -15,7 +32,15 @@ module.exports = {
         },
         sort: 'publishedAt:desc',
         fields: ["id", "title", "publishedAt", "sourceBrand"],
-        populate: ["image"],
+        populate:{
+          image: {
+            populate: ['folder']
+          },
+          categories:{
+            fields:['id', 'name',],
+            populate: ["image"],
+          }
+        }
       });
       ctx.send(featuredNews);
     } catch (error) {
