@@ -5,23 +5,6 @@ import { Context } from 'koa';
 import { DateTime } from 'luxon';
 
 module.exports = {
-  /*
-populate: {
-          image: {
-            populate: ['folder']
-          },
-          newses: {
-            fields: ["id", "title", "publishedAt"],
-            populate: ["image"],
-            filters: {
-              publishedAt: {
-                $gte: DateTime.now().minus({ days: 1 }).toISO()
-              }
-            },
-            sort: 'publishedAt:desc'
-          }
-        },
-   */
   async getLatestNews(ctx){
     try {
       const featuredNews = await strapi.entityService.findMany('api::news.news', {
@@ -188,7 +171,6 @@ populate: {
       sort: ['priority:asc'],
       populate: {
         newses: {
-          filters: {$not: {publishedAt: null}},
           populate: ["image"],
           fields: ["title", "createdAt", "sourceBrand"],
           sort: ['publishedAt:desc'],
