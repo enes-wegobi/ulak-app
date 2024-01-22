@@ -192,7 +192,7 @@ populate: {
           populate: ["image"],
           fields: ["title", "createdAt", "sourceBrand"],
           sort: ['publishedAt:desc'],
-          limit: 5,
+          limit: 6,
         }
       }
     })
