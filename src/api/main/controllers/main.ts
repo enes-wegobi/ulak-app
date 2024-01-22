@@ -177,17 +177,21 @@ populate: {
 
     const categories = await strapi.entityService.findMany('api::category.category', {
       fields:["name", "id"],
-      populate: ["image"]
+      populate: ["image"],
+      sort: ['priority:asc'],
     })
 
     const categoryNews = await strapi.entityService.findMany('api::category.category', {
-      limit: 5,
+      filters:{
+        priority : {$lte :8}
+      },
       populate: {
         newses: {
           filters: {$not: {publishedAt: null}},
           populate: ["image"],
           fields: ["title", "createdAt", "sourceBrand"],
           sort: ['publishedAt:desc'],
+          limit: 5,
         }
       }
     })

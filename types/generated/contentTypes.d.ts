@@ -738,6 +738,7 @@ export interface ApiCategoryCategory extends Schema.CollectionType {
       Attribute.Required &
       Attribute.Private &
       Attribute.DefaultTo<false>;
+    priority: Attribute.Integer & Attribute.Required;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

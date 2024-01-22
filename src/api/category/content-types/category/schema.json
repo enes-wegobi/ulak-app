@@ -45,6 +45,10 @@
       "default": false,
       "private": true,
       "required": true
+    },
+    "priority": {
+      "type": "integer",
+      "required": true
     }
   }
 }
