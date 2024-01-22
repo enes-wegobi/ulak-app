@@ -185,6 +185,7 @@ populate: {
       filters:{
         priority : {$lte :8}
       },
+      sort: ['priority:asc'],
       populate: {
         newses: {
           filters: {$not: {publishedAt: null}},
