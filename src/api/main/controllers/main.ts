@@ -93,7 +93,7 @@ module.exports = {
       const parsedPage = parseInt(page || '1');
       const parsedPageSize = parseInt(pageSize || '5');
       const isFeatured = isCategoryFeatured === 'true';
-      let filters: any = {};
+      let filters: any = {publicationState: 'live'};
       if(search){
         filters.title = {
             $containsi: search
@@ -138,12 +138,13 @@ module.exports = {
   async getMainContents(ctx: Context) {
     const homeFeaturedNews = await strapi.entityService.findMany('api::news.news', {
       filters: {
-          $and :[{isHomeFeatured: {$eq: true, },}, {$not: {publishedAt: null}}]
+        isHomeFeatured: {$eq: true, }
       },
       limit:15,
       sort: ['publishedAt:desc'],
       fields:['id','title', 'sourceBrand'],
       populate: ["image"],
+      publicationState: 'live'
     });
 
     const recentlyAddedNews = await strapi.entityService.findMany('api::news.news', {
@@ -165,19 +166,23 @@ module.exports = {
     })
 
     const categoryNews = await strapi.entityService.findMany('api::category.category', {
-      filters:{
-        priority : {$lte :8}
-      },
+      filters:{priority:{$lte:8}},
       sort: ['priority:asc'],
       populate: {
         newses: {
           populate: ["image"],
           fields: ["title", "createdAt", "sourceBrand"],
           sort: ['publishedAt:desc'],
-          limit: 6,
+          publicationState : 'live',
         }
       }
     })
+    categoryNews.forEach(category => {
+      if (category.newses && category.newses.length > 5) {
+        category.newses = category.newses.slice(0, 5);
+      }
+    });
+
     return ctx.send({
       homeFeaturedNews,
       categoryNews,

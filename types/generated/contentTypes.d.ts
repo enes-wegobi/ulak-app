@@ -903,6 +903,7 @@ export interface ApiNewsNews extends Schema.CollectionType {
       'api::category.category'
     >;
     sourceBrand: Attribute.String;
+    isEligibleForNotification: Attribute.Boolean & Attribute.DefaultTo<false>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

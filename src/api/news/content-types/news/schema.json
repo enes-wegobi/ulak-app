@@ -60,6 +60,11 @@
     },
     "sourceBrand": {
       "type": "string"
+    },
+    "isEligibleForNotification": {
+      "type": "boolean",
+      "default": false,
+      "required": false
     }
   }
 }
