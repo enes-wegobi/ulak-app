@@ -35,6 +35,7 @@ export default {
               to: expoUser.expoPushToken,
               sound: 'default',
               body: news.title,
+              data: { news: news.id },
             })
           }
         }

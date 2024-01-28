@@ -221,5 +221,11 @@ module.exports = {
       return ctx.send(expoUser);
     }
     ctx.badRequest();
+  },
+  async getDevices(ctx) {
+      const devices = await strapi.db.query('api::device.device').findMany({
+        select: ["id","type","version"],
+      });
+      return ctx.send(devices);
   }
 };

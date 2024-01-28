@@ -794,6 +794,38 @@ export interface ApiCookieCookie extends Schema.SingleType {
   };
 }
 
+export interface ApiDeviceDevice extends Schema.CollectionType {
+  collectionName: 'devices';
+  info: {
+    singularName: 'device';
+    pluralName: 'devices';
+    displayName: 'device';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    version: Attribute.String;
+    type: Attribute.String;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::device.device',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::device.device',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiExpoUserExpoUser extends Schema.CollectionType {
   collectionName: 'expo_users';
   info: {
@@ -1035,6 +1067,7 @@ declare module '@strapi/types' {
       'api::app-user.app-user': ApiAppUserAppUser;
       'api::category.category': ApiCategoryCategory;
       'api::cookie.cookie': ApiCookieCookie;
+      'api::device.device': ApiDeviceDevice;
       'api::expo-user.expo-user': ApiExpoUserExpoUser;
       'api::general-contact-form.general-contact-form': ApiGeneralContactFormGeneralContactForm;
       'api::news.news': ApiNewsNews;

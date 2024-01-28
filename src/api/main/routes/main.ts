@@ -35,5 +35,10 @@ export default {
       path: '/main/expo-users/:expoPushToken',
       handler: 'main.getExpoUserByToken',
     },
+    {
+      method: 'GET',
+      path: '/main/devices',
+      handler: 'main.getDevices',
+    },
   ],
 };
