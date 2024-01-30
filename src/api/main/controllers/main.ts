@@ -3,6 +3,7 @@
  */
 import { Context } from 'koa';
 import { DateTime } from 'luxon';
+import {Expo} from "expo-server-sdk";
 
 module.exports = {
   async getLatestNews(ctx){
@@ -227,5 +228,32 @@ module.exports = {
         select: ["id","type","version"],
       });
       return ctx.send(devices);
+  },
+  async sendNotification(data){
+    const {expoPushToken, newsId} = data.request.body
+    const expo = new Expo({ accessToken: process.env.EXPO_ACCESS_TOKEN });
+    let messages = [];
+
+    const news = await strapi.entityService.findOne('api::news.news', newsId);
+    messages.push({
+      to: expoPushToken,
+      sound: 'default',
+      body: news.title,
+      data: { news: news.id },
+    })
+
+    let chunks = expo.chunkPushNotifications(messages);
+    let tickets = [];
+    await (async () => {
+      for (let chunk of chunks) {
+        try {
+          let ticketChunk = await expo.sendPushNotificationsAsync(chunk);
+
+          tickets.push(...ticketChunk);
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    })();
   }
 };

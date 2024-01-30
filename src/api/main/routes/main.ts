@@ -31,6 +31,11 @@ export default {
       handler: 'main.createExpoUser',
     },
     {
+      method: 'POST',
+      path: '/main/notifications',
+      handler: 'main.sendNotification',
+    },
+    {
       method: 'GET',
       path: '/main/expo-users/:expoPushToken',
       handler: 'main.getExpoUserByToken',
