@@ -33,6 +33,7 @@ export default {
           for (let news of notificationNewses){
             messages.push({
               to: expoUser.expoPushToken,
+              title: 'Önerilen',
               sound: 'default',
               body: news.title,
               data: { news: news.id },

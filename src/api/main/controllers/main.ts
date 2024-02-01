@@ -238,6 +238,7 @@ module.exports = {
     messages.push({
       to: expoPushToken,
       sound: 'default',
+      title: 'Önerilen',
       body: news.title,
       data: { news: news.id },
     })
